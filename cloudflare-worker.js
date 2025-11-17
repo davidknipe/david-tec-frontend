@@ -4,7 +4,8 @@ const ALLOWED_ORIGINS = [
   'http://localhost:3000',
   'http://localhost:3001',
   'https://david-tec.com',
-  'https://www.david-tec.com'
+  'https://www.david-tec.com',
+  'https://david-tec-frontend.vercel.app'
 ]
 
 const TARGET_API = 'https://www.david-tec.com/api/episerver/v1.0'
@@ -40,6 +41,9 @@ async function handleRequest(request) {
   // Add CORS headers
   if (origin && ALLOWED_ORIGINS.includes(origin)) {
     modifiedResponse.headers.set('Access-Control-Allow-Origin', origin)
+  } else if (!origin) {
+    // Allow server-to-server requests (no origin header)
+    modifiedResponse.headers.set('Access-Control-Allow-Origin', '*')
   }
   modifiedResponse.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
   modifiedResponse.headers.set('Access-Control-Allow-Headers', 'Content-Type')
