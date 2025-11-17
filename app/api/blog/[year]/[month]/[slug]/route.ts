@@ -16,7 +16,7 @@ export async function GET(
 
   try {
     // Fetch all posts (this will be cached by Next.js)
-    const response = await fetch(`${baseUrl}?${filterParams.toString()}&skip=0&top=200`, {
+    const response = await fetch(`${baseUrl}?${filterParams.toString()}&skip=0&top=100`, {
       next: { revalidate: 3600 }, // Cache for 1 hour
     })
 
