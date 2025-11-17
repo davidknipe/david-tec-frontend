@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Calendar, Clock, ArrowLeft, Share2, Linkedin } from 'lucide-react'
 import Link from 'next/link'
-import { getBlogPostByUrl, calculateReadTime, formatDate, getTags, type BlogPost } from '@/lib/api'
+import { calculateReadTime, formatDate, getTags, type BlogPost } from '@/lib/api'
 import { use } from 'react'
 
 export default function BlogPost({ params }: { params: Promise<{ year: string; month: string; slug: string }> }) {
@@ -14,9 +14,20 @@ export default function BlogPost({ params }: { params: Promise<{ year: string; m
 
   useEffect(() => {
     async function loadPost() {
-      const blogPost = await getBlogPostByUrl(year, month, slug)
-      setPost(blogPost)
-      setLoading(false)
+      try {
+        const response = await fetch(`/api/blog/${year}/${month}/${slug}`)
+        if (response.ok) {
+          const blogPost = await response.json()
+          setPost(blogPost)
+        } else {
+          setPost(null)
+        }
+      } catch (error) {
+        console.error('Error loading post:', error)
+        setPost(null)
+      } finally {
+        setLoading(false)
+      }
     }
     loadPost()
   }, [year, month, slug])
