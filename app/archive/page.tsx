@@ -121,7 +121,7 @@ function ArchiveContent() {
   if (loading) {
     return (
       <div className="min-h-screen py-12">
-        <div className="section-container max-w-4xl">
+        <div className="section-container">
           <div className="text-center py-20">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
             <p className="mt-4 text-gray-600 dark:text-gray-400">Loading archive...</p>
@@ -247,7 +247,7 @@ export default function ArchivePage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen py-12">
-        <div className="section-container max-w-4xl">
+        <div className="section-container">
           <div className="text-center py-20">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
             <p className="mt-4 text-gray-600 dark:text-gray-400">Loading archive...</p>

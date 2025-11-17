@@ -82,9 +82,18 @@ export async function fetchAllBlogPosts(): Promise<BlogPost[]> {
 // Get a single blog post by URL path
 export async function getBlogPostByUrl(year: string, month: string, slug: string): Promise<BlogPost | null> {
   const posts = await fetchAllBlogPosts()
-  const urlPath = `/${year}/${month}/${slug}/`
 
-  const post = posts.find(p => p.Url.toLowerCase() === urlPath.toLowerCase())
+  // Try both with and without trailing slash to be flexible
+  const urlPath1 = `/${year}/${month}/${slug}/`
+  const urlPath2 = `/${year}/${month}/${slug}`
+
+  const post = posts.find(p => {
+    const normalizedUrl = p.Url.toLowerCase().replace(/\/$/, '') // Remove trailing slash
+    const normalizedPath1 = urlPath1.toLowerCase().replace(/\/$/, '')
+    const normalizedPath2 = urlPath2.toLowerCase().replace(/\/$/, '')
+    return normalizedUrl === normalizedPath1 || normalizedUrl === normalizedPath2
+  })
+
   return post || null
 }
 
