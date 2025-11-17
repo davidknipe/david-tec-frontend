@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { Calendar, FileText, ChevronDown, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { extractDateFromUrl, type BlogPost } from '@/lib/api'
 
@@ -20,7 +20,7 @@ interface YearArchive {
   posts: Post[]
 }
 
-export default function ArchivePage() {
+function ArchiveContent() {
   const searchParams = useSearchParams()
   const yearParam = searchParams.get('year')
   const yearRefs = useRef<{ [key: number]: HTMLDivElement | null }>({})
@@ -240,5 +240,22 @@ export default function ArchivePage() {
         </motion.div>
       </div>
     </div>
+  )
+}
+
+export default function ArchivePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen py-12">
+        <div className="section-container max-w-4xl">
+          <div className="text-center py-20">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+            <p className="mt-4 text-gray-600 dark:text-gray-400">Loading archive...</p>
+          </div>
+        </div>
+      </div>
+    }>
+      <ArchiveContent />
+    </Suspense>
   )
 }
