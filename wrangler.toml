@@ -1,0 +1,7 @@
+name = "david-tec-api-proxy"
+main = "cloudflare-worker.js"
+compatibility_date = "2024-01-01"
+
+# Routes configuration - update this with your worker subdomain
+# Example: api-proxy.yourdomain.workers.dev
+# Or use a custom domain route
